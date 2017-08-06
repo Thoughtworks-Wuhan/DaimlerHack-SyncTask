@@ -23,9 +23,7 @@ public class CSV {
         sb.append(',');
         sb.append("price");
         sb.append('\n');
-        pw.write(sb.toString());
-
-        pw.write(sb.toString());
+        System.out.println(sb.toString());
         pw.close();
         System.out.println("done!");
     }

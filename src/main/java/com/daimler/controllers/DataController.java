@@ -1,6 +1,8 @@
 package com.daimler.controllers;
 
 import com.daimler.controllers.model.Vehicle;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -31,16 +33,23 @@ public class DataController {
         con.setRequestProperty("Accept-Encoding", "gzip");
 
         GZIPInputStream stream = new GZIPInputStream(con.getInputStream());
-        Scanner sc=new Scanner(stream);
+        Scanner sc = new Scanner(stream);
         String fileName = "test.csv";
         generateCSVFile(fileName);
         int i = 0;
         FileWriter fw = new FileWriter(fileName, true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter out = new PrintWriter(bw);
-        while(sc.hasNextLine() && i < 1){
+        while (sc.hasNextLine() && i < 100) {
             String vehicleJsonString = sc.nextLine();
-            Vehicle vehicle = new ObjectMapper().readValue(vehicleJsonString, Vehicle.class);
+            if (null == vehicleJsonString || vehicleJsonString.isEmpty()) {
+                System.out.println("line " + i + " is empty");
+                continue;
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+            objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
+            Vehicle vehicle = objectMapper.readValue(vehicleJsonString, Vehicle.class);
             out.println(vehicle.detail.csvLine());
             i++;
         }
