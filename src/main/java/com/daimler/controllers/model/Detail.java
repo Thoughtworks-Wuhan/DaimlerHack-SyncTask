@@ -107,7 +107,7 @@ public class Detail {
     @JsonProperty("deal_price")
     public Long dealPrice;
     @JsonProperty("buy_car_gifts")
-    public List<Object> buyCarGifts = null;
+    public BuyCarGifts buyCarGifts = null;
     @JsonProperty("price")
     public String price;
     @JsonProperty("title")

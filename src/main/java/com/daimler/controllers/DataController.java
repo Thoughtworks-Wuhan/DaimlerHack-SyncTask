@@ -40,7 +40,7 @@ public class DataController {
         FileWriter fw = new FileWriter(fileName, true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter out = new PrintWriter(bw);
-        while (sc.hasNextLine() && i < 100) {
+        while (sc.hasNextLine()) {
             String vehicleJsonString = sc.nextLine();
             if (null == vehicleJsonString || vehicleJsonString.isEmpty()) {
                 System.out.println("line " + i + " is empty");
@@ -54,5 +54,6 @@ public class DataController {
             i++;
         }
         out.close();
+        System.out.println("write csv done!");
     }
 }

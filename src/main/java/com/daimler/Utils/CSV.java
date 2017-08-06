@@ -25,7 +25,7 @@ public class CSV {
         sb.append('\n');
         System.out.println(sb.toString());
         pw.close();
-        System.out.println("done!");
+        System.out.println("create csv done!");
     }
 
 }
