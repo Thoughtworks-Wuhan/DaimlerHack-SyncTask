@@ -28,4 +28,11 @@ public class CSV {
         System.out.println("create csv done!");
     }
 
+    public static String replaceCommaWithSpace(String field) {
+        if (field != null) {
+            return field.replace(',', ' ');
+        }
+        return field;
+    }
+
 }

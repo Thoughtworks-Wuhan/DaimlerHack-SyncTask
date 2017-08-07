@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import static com.daimler.Utils.CSV.replaceCommaWithSpace;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "emission_standard",
@@ -241,19 +243,19 @@ public class Detail {
 
     public String csvLine() {
         StringBuilder sb = new StringBuilder();
-        sb.append(roadHaul);
+        sb.append(replaceCommaWithSpace(roadHaul));
         sb.append(',');
-        sb.append(newPrice);
+        sb.append(replaceCommaWithSpace(newPrice));
         sb.append(',');
-        sb.append(title);
+        sb.append(replaceCommaWithSpace(title));
         sb.append(',');
-        sb.append(useDate);
+        sb.append(replaceCommaWithSpace(useDate));
         sb.append(',');
-        sb.append(insuranceDate);
+        sb.append(replaceCommaWithSpace(insuranceDate));
         sb.append(',');
-        sb.append(gearbox);
+        sb.append(replaceCommaWithSpace(gearbox));
         sb.append(',');
-        sb.append(price);
+        sb.append(replaceCommaWithSpace(price));
         return sb.toString();
     }
 }
