@@ -1,9 +1,7 @@
 
 package com.daimler.controllers.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -256,7 +254,7 @@ public class Detail {
         sb.append('|');
         sb.append(month(useDate));
         sb.append('|');
-        sb.append(replaceCommaWithSpace(insuranceDate));
+        sb.append(monthInsurance(insuranceDate));
         sb.append('|');
         sb.append(replaceCommaWithSpace(gearbox));
         return sb.toString();
@@ -269,6 +267,23 @@ public class Detail {
             Matcher matcher = pattern.matcher(useDate);
             if (matcher.matches()) {
                 return Integer.parseInt(matcher.group(1)) * 12 + Integer.parseInt(matcher.group(2));
+            }
+        }
+        return null;
+    }
+
+    public Integer monthInsurance(String insuranceDate) {
+        if (insuranceDate != null) {
+            Pattern pattern = Pattern.compile("([0-9]+)年([0-9]+)月商业险到期");
+
+            Matcher matcher = pattern.matcher(insuranceDate);
+            if (matcher.matches()) {
+                int year = Calendar.getInstance().get(Calendar.YEAR);
+                int month = Calendar.getInstance().get(Calendar.MONTH);
+                return (Integer.parseInt(matcher.group(1)) - year) * 12 + Integer
+                        .parseInt(matcher.group(2)) - month;
+            } else {
+                return 0;
             }
         }
         return null;
