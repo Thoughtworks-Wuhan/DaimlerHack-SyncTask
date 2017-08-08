@@ -4,6 +4,9 @@ package com.daimler.controllers.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,76 +18,76 @@ import static com.daimler.Utils.CSV.replaceCommaWithSpace;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "emission_standard",
-    "service_item",
-    "wap_share_icon",
-    "bottom_tips",
-    "domain",
-    "show_status",
-    "road_haul",
-    "new_price",
-    "loan_amount",
-    "deal_price",
-    "buy_car_gifts",
-    "price",
-    "title",
-    "bottom_icon",
-    "car_source_status",
-    "puid",
-    "offer_price_info",
-    "seller",
-    "gearbox",
-    "use_date",
-    "emission_standard_desc",
-    "highlight_config_item",
-    "insurance_date",
-    "subtitle",
-    "phone",
-    "air_displacement",
-    "seller_description",
-    "describe_list",
-    "clue_id_str",
-    "imageList",
-    "is_pay",
-    "monthly_payment",
-    "follow_num",
-    "evaluate_items",
-    "emissions_standards_url",
-    "promote_price",
-    "transfer_num",
-    "hege_icon",
-    "report_url",
-    "recommend",
-    "is_heat_analysis",
-    "heat_analysis",
-    "evaluator",
-    "audit_date",
-    "strong_insurance_date",
-    "license",
-    "wap_url",
-    "gender",
-    "seller_job",
-    "loan_url",
-    "clue_id",
-    "not_zhibao",
-    "evaluator_desc",
-    "show_config",
-    "evaluate_job",
-    "loanInfo",
-    "city_id",
-    "is_collection",
-    "service_desc",
-    "service",
-    "district_name",
-    "service_charge",
-    "evaluate_tips_desc",
-    "evaluate_time",
-    "car_hot_params",
-    "thumb_img",
-    "card_city",
-    "evaluator_image",
-    "first_amount",
-    "imageCategoryList"
+        "emission_standard",
+        "service_item",
+        "wap_share_icon",
+        "bottom_tips",
+        "domain",
+        "show_status",
+        "road_haul",
+        "new_price",
+        "loan_amount",
+        "deal_price",
+        "buy_car_gifts",
+        "price",
+        "title",
+        "bottom_icon",
+        "car_source_status",
+        "puid",
+        "offer_price_info",
+        "seller",
+        "gearbox",
+        "use_date",
+        "emission_standard_desc",
+        "highlight_config_item",
+        "insurance_date",
+        "subtitle",
+        "phone",
+        "air_displacement",
+        "seller_description",
+        "describe_list",
+        "clue_id_str",
+        "imageList",
+        "is_pay",
+        "monthly_payment",
+        "follow_num",
+        "evaluate_items",
+        "emissions_standards_url",
+        "promote_price",
+        "transfer_num",
+        "hege_icon",
+        "report_url",
+        "recommend",
+        "is_heat_analysis",
+        "heat_analysis",
+        "evaluator",
+        "audit_date",
+        "strong_insurance_date",
+        "license",
+        "wap_url",
+        "gender",
+        "seller_job",
+        "loan_url",
+        "clue_id",
+        "not_zhibao",
+        "evaluator_desc",
+        "show_config",
+        "evaluate_job",
+        "loanInfo",
+        "city_id",
+        "is_collection",
+        "service_desc",
+        "service",
+        "district_name",
+        "service_charge",
+        "evaluate_tips_desc",
+        "evaluate_time",
+        "car_hot_params",
+        "thumb_img",
+        "card_city",
+        "evaluator_image",
+        "first_amount",
+        "imageCategoryList"
 })
 public class Detail {
 
@@ -251,11 +254,23 @@ public class Detail {
         sb.append('|');
         sb.append(replaceCommaWithSpace(title));
         sb.append('|');
-        sb.append(replaceCommaWithSpace(useDate));
+        sb.append(month(useDate));
         sb.append('|');
         sb.append(replaceCommaWithSpace(insuranceDate));
         sb.append('|');
         sb.append(replaceCommaWithSpace(gearbox));
         return sb.toString();
+    }
+
+    public Integer month(String useDate) {
+        if (useDate != null) {
+            Pattern pattern = Pattern.compile("([1-9])年([1-9]+)个月");
+
+            Matcher matcher = pattern.matcher(useDate);
+            if (matcher.matches()) {
+                return Integer.parseInt(matcher.group(1)) * 12 + Integer.parseInt(matcher.group(2));
+            }
+        }
+        return null;
     }
 }
