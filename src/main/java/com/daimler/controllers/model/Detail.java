@@ -269,7 +269,7 @@ public class Detail {
                 return Integer.parseInt(matcher.group(1)) * 12 + Integer.parseInt(matcher.group(2));
             }
         }
-        return null;
+        return 0;
     }
 
     public Integer monthInsurance(String insuranceDate) {
@@ -286,6 +286,6 @@ public class Detail {
                 return 0;
             }
         }
-        return null;
+        return 0;
     }
 }
