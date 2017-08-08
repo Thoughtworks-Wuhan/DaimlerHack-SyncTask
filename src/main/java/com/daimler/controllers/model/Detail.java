@@ -244,18 +244,18 @@ public class Detail {
     public String csvLine() {
         StringBuilder sb = new StringBuilder();
         sb.append(replaceCommaWithSpace(roadHaul));
-        sb.append(',');
+        sb.append('|');
         sb.append(replaceCommaWithSpace(newPrice));
-        sb.append(',');
-        sb.append(replaceCommaWithSpace(title));
-        sb.append(',');
-        sb.append(replaceCommaWithSpace(useDate));
-        sb.append(',');
-        sb.append(replaceCommaWithSpace(insuranceDate));
-        sb.append(',');
-        sb.append(replaceCommaWithSpace(gearbox));
-        sb.append(',');
+        sb.append('|');
         sb.append(replaceCommaWithSpace(price));
+        sb.append('|');
+        sb.append(replaceCommaWithSpace(title));
+        sb.append('|');
+        sb.append(replaceCommaWithSpace(useDate));
+        sb.append('|');
+        sb.append(replaceCommaWithSpace(insuranceDate));
+        sb.append('|');
+        sb.append(replaceCommaWithSpace(gearbox));
         return sb.toString();
     }
 }

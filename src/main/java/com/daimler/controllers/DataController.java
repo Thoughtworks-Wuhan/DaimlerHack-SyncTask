@@ -34,7 +34,7 @@ public class DataController {
 
         GZIPInputStream stream = new GZIPInputStream(con.getInputStream());
         Scanner sc = new Scanner(stream);
-        String fileName = "test.csv";
+        String fileName = "test2.txt";
         generateCSVFile(fileName);
         int i = 0;
         FileWriter fw = new FileWriter(fileName, true);
