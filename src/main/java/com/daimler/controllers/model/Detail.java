@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.springframework.util.StringUtils;
 
 import static com.daimler.Utils.CSV.replaceCommaWithSpace;
 
@@ -257,7 +258,7 @@ public class Detail {
         sb.append('|');
         sb.append(monthInsurance(insuranceDate));
         sb.append('|');
-        sb.append(replaceCommaWithSpace(gearbox));
+        sb.append(replaceAutoAndManual(replaceCommaWithSpace(gearbox)));
         sb.append('|');
         sb.append(brandIndex(replaceCommaWithSpace(title)));
         return sb.toString();
@@ -300,6 +301,18 @@ public class Detail {
             } else {
                 return 0;
             }
+        }
+        return 0;
+    }
+
+    public Integer replaceAutoAndManual(String gearbox) {
+        if(null == gearbox) {
+            return 0;
+        }
+        if(gearbox.contains("自动")) {
+            return 1;
+        } else if(gearbox.contains("手动")) {
+            return 2;
         }
         return 0;
     }

@@ -15,8 +15,6 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.zip.GZIPInputStream;
 
-import static com.daimler.Utils.CSV.generateCSVFile;
-
 @Component
 public class FetchDataAsyncTask {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -34,7 +32,6 @@ public class FetchDataAsyncTask {
             dir.mkdir();
         }
         String fileName = "data/" + date +".txt";
-        generateCSVFile(fileName);
 
         FileWriter fw = new FileWriter(fileName, true);
         BufferedWriter bw = new BufferedWriter(fw);

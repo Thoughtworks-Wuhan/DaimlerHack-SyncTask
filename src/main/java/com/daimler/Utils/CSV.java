@@ -8,8 +8,8 @@ import java.io.*;
 
 @Service
 public class CSV {
+
     public static void generateCSVFile(String fileName) throws FileNotFoundException {
-        protected final Logger logger = LoggerFactory.getLogger(this.getClass());
         PrintWriter pw = new PrintWriter(new File(fileName));
         StringBuilder sb = new StringBuilder();
         sb.append("road_haul");
@@ -26,7 +26,6 @@ public class CSV {
 //        sb.append(',');
         sb.append("price");
         sb.append('\n');
-        logger.info("create csv " + fileName + " done: " + sb.toString());
         pw.close();
     }
 
