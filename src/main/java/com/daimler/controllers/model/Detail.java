@@ -261,7 +261,18 @@ public class Detail {
         sb.append(replaceAutoAndManual(replaceCommaWithSpace(gearbox)));
         sb.append('|');
         sb.append(brandIndex(replaceCommaWithSpace(title)));
+        sb.append('|');
+        sb.append(leveledPrice(newPrice));
+        sb.append('|');
+        sb.append(leveledPrice(price));
         return sb.toString();
+    }
+
+    public String leveledPrice(String price) {
+        if (price != null) {
+            return String.valueOf(Math.round(Double.parseDouble(price) / 0.5));
+        }
+        return "0";
     }
 
 
