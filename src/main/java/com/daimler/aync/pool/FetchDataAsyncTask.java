@@ -28,7 +28,11 @@ public class FetchDataAsyncTask {
     }
 
     private void parseDatainDate(String date) throws IOException {
-
+        File dir = new File("data/");
+        if (!dir.exists()) {
+            logger.info("Create data dir");
+            dir.mkdir();
+        }
         String fileName = "data/" + date +".txt";
         generateCSVFile(fileName);
 

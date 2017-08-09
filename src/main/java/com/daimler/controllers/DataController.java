@@ -33,7 +33,7 @@ public class DataController {
         Calendar endDate = getCalendar(date);
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
-        while (endDate.after(startDate)) {
+        while (!endDate.before(startDate)) {
             logger.info("startDate: " + df.format(startDate.getTime()) + " endDate: " + df.format(endDate.getTime()));
             task.doTask1(df.format(startDate.getTime()));
             startDate.add(Calendar.DATE, 1);
