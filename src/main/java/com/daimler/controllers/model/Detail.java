@@ -87,6 +87,7 @@ import static com.daimler.Utils.CSV.replaceCommaWithSpace;
         "first_amount",
         "imageCategoryList"
 })
+
 public class Detail {
 
     @JsonProperty("emission_standard")
@@ -257,7 +258,21 @@ public class Detail {
         sb.append(monthInsurance(insuranceDate));
         sb.append('|');
         sb.append(replaceCommaWithSpace(gearbox));
+        sb.append('|');
+        sb.append(brandIndex(replaceCommaWithSpace(title)));
         return sb.toString();
+    }
+
+
+    public Integer brandIndex(String title) {
+        if (title != null) {
+            for (int i = 0; i < brandList.size(); i++) {
+                if (title.contains(brandList.get(i))) {
+                    return i+1;
+                }
+            }
+        }
+        return 0;
     }
 
     public Integer month(String useDate) {
@@ -288,4 +303,12 @@ public class Detail {
         }
         return 0;
     }
+
+    private String s = "奥迪,AlPINA,宝马,奔驰,保时捷,宝沃,大众,KTM,罗伦士,MINI,Smart,泰卡特,威兹曼,西雅特,本田,丰田,雷克萨斯,铃木,马自达,讴歌,日产,斯巴鲁,三菱,五十铃," +
+            "英菲尼迪," +
+            "起亚," +
+            "双龙," +
+            "现代,别克,道奇,福特,Faraday Future,GMC,Jeep,凯迪拉克,克莱斯勒,林肯,赛麟,山姆,特斯拉,雪佛兰,星客特,标致,DS,雷诺,雪铁龙,阿斯顿马丁,宾利,捷豹,路虎,劳斯莱斯,路特斯,迈凯伦,摩根,阿尔法罗密欧,布加迪,菲亚特,法拉利,兰博基尼,玛莎拉蒂,帕加尼,依维柯,科尼塞克,沃尔沃,斯柯达,宝骏,比亚迪,奔腾,比速,北汽,长安,长城,昌河,成功,东风,飞驰,福迪,福汽,福田,广汽传祺,观致,哈弗,海马,汉腾,红旗,华泰,哈飞,海格,恒天,华凯,黄海,华颂,汇众,吉利,江淮,江铃,金杯,金龙,金旅,九龙,吉威,凯翼,开瑞,卡升,卡威,科瑞斯的,康迪,领克,陆风,力帆,莲花,猎豹,理念,陆地方舟,蓝海,雷丁,名爵,MG,纳智捷,奇瑞,启程,前途,庆铃,荣威,腾势,五菱,WEY,威麟,新凯,驭胜,野马,一汽,宇通,亚星,众泰,中华,知豆,之诺,中兴";
+    private List<String> brandList = new ArrayList<String>(Arrays.asList(s.split(",")));
+
 }
