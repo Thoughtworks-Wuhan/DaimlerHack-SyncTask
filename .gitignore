@@ -24,3 +24,10 @@ hs_err_pid*
 *.iml
 .idea
 .idea/vcs.xml
+
+
+.DS_Store
+.gradle/
+build/
+out/
+

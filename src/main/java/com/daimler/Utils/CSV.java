@@ -23,9 +23,8 @@ public class CSV {
 //        sb.append(',');
         sb.append("price");
         sb.append('\n');
-        System.out.println(sb.toString());
+        System.out.println("create csv " + fileName + " done: " + sb.toString());
         pw.close();
-        System.out.println("create csv done!");
     }
 
     public static String replaceCommaWithSpace(String field) {
