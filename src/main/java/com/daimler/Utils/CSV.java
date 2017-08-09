@@ -1,5 +1,7 @@
 package com.daimler.Utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -7,6 +9,7 @@ import java.io.*;
 @Service
 public class CSV {
     public static void generateCSVFile(String fileName) throws FileNotFoundException {
+        protected final Logger logger = LoggerFactory.getLogger(this.getClass());
         PrintWriter pw = new PrintWriter(new File(fileName));
         StringBuilder sb = new StringBuilder();
         sb.append("road_haul");
@@ -23,7 +26,7 @@ public class CSV {
 //        sb.append(',');
         sb.append("price");
         sb.append('\n');
-        System.out.println("create csv " + fileName + " done: " + sb.toString());
+        logger.info("create csv " + fileName + " done: " + sb.toString());
         pw.close();
     }
 
