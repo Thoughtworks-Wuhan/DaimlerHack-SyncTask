@@ -30,8 +30,8 @@ task wrapper(type: Wrapper) {
 }
 
 flyway {
-//	url = 'jdbc:mysql://free-instance.cpgvneofg6ey.us-east-2.rds.amazonaws.com:3306'
-	url = 'jdbc:mysql://localhost:3306'
+	url = 'jdbc:mysql://rm-m5e7a90uwvq29ub01o.mysql.rds.aliyuncs.com:3306'
+//	url = 'jdbc:mysql://localhost:3306'
 	user = 'lane'
 	password = 'Passw0rd'
 	schemas = ['lanedb']

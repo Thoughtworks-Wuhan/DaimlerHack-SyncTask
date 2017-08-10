@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
@@ -28,9 +29,10 @@ public class DataController {
     private FetchDataAsyncTask task;
 
     @GetMapping("/load/{date}")
-    @ResponseBody Map<String, String> parse(@PathVariable String date) throws IOException, ParseException, InterruptedException {
+    @ResponseBody Map<String, String> parse(@PathVariable String date, @RequestParam("start") String start) throws IOException, ParseException, InterruptedException {
         Map<String, String> result = new HashMap<String, String>();
-        Calendar startDate = getCalendar(DEFAULT_START_DATE);
+        start = start == null ? DEFAULT_START_DATE : start;
+        Calendar startDate = getCalendar(start);
         Calendar endDate = getCalendar(date);
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
@@ -40,7 +42,7 @@ public class DataController {
             startDate.add(Calendar.DATE, 1);
         }
 
-        result.put("message", "start tread to load data on " + date);
+        result.put("message", "start tread to load data from  " + start + " to " + date);
 
         return result;
     }

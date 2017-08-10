@@ -62,7 +62,7 @@ public class FetchDataAsyncTask {
                 }
                 Vehicle vehicle = objectMapper.readValue(vehicleJsonString, Vehicle.class);
                 out.println(vehicle.detail.csvLine());
-                save(vehicle);
+//                save(vehicle);
             }
             logger.info("write " + date + " csv done!");
         } catch (FileNotFoundException exception) {
