@@ -12,7 +12,9 @@ public class CSV {
         if (field != null) {
             return field.replace(',', ' ').replace("\n", " ");
         }
-        return field;
+        else {
+            return "0";
+        }
     }
 
 }
