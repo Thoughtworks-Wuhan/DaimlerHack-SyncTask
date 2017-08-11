@@ -27,12 +27,12 @@ public class FetchDataAsyncTask {
     private CarRepository carRepository;
 
     @Async("myTaskAsyncPool")
-    public void doTask1(String date) throws InterruptedException, IOException {
+    public void doTask1(String date, String loadToDB) throws InterruptedException, IOException {
         logger.info("Task " + date + " started.");
-        parseDatainDate(date);
+        parseDatainDate(date, loadToDB);
     }
 
-    private void parseDatainDate(String date) throws IOException {
+    private void parseDatainDate(String date, String loadToDB) throws IOException {
         File dir = new File("data/");
         if (!dir.exists()) {
             logger.info("Create data dir");
@@ -62,7 +62,9 @@ public class FetchDataAsyncTask {
                 }
                 Vehicle vehicle = objectMapper.readValue(vehicleJsonString, Vehicle.class);
                 out.println(vehicle.detail.csvLine());
-//                save(vehicle);
+                if(loadToDB.equals("true")) {
+                    save(vehicle);
+                }
             }
             logger.info("write " + date + " csv done!");
         } catch (FileNotFoundException exception) {

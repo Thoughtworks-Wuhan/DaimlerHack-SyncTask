@@ -9,8 +9,8 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/price").setViewName("price-chart");
-        registry.addViewController("/").setViewName("price-chart");
+        registry.addViewController("/statistics").setViewName("statistics");
+        registry.addViewController("/").setViewName("statistics");
     }
 
 }

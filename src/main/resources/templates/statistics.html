@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8" />
+    <title>Vehicle Charts</title>
+    <script src="echarts.min.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+</head>
+<body>
+<h1>Fantastic Charts!</h1>
+
+<label>Brand:</label>
+<select onchange="selectBrand(this)">
+    <option>奔驰</option>
+    <option>宝马</option>
+    <option>奥迪</option>
+    <option>大众</option>
+    <option>本田</option>
+    <option>丰田</option>
+    <option>标志</option>
+    <option>雪铁龙</option>
+    <option>福特</option>
+    <option>斯巴鲁</option>
+    <option>雪佛兰</option>
+    <option>马自达</option>
+    <option>法拉利</option>
+    <option>吉利</option>
+</select>
+<div id="hottest"></div>
+<div id="price" style="width: 1024px;height:800px;"></div>
+<div id="remainingRate" style="width: 1024px;height:800px;"></div>
+<script type="text/javascript">
+/*<![CDATA[*/
+  $.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+      return null;
+    }
+    else{
+      return decodeURI(results[1]) || 0;
+    }
+  }
+
+  var hostUrl = 'http://localhost:8080';
+  var requestedHostUrl = $.urlParam('hostUrl');
+  var brand = $.urlParam('brand');
+  brand ? brand = "?brand=" + brand : brand = '';
+  requestedHostUrl ? hostUrl = requestedHostUrl : hostUrl;
+
+  function selectBrand(selectObject) {
+    var selectedBrand = selectObject.value;
+		window.open(hostUrl+"/statistics?brand=" + selectedBrand, "_self");
+  }
+
+	(function loadHottest() {
+		fetch(hostUrl + '/statistics/vehicle/hottest' + brand, {method: 'GET'})
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function (data) {
+				var h5Elm = document.createElement('h3');
+				h5Elm.innerText = 'Hottest Cars:';
+				var ulElm = document.createElement('ul');
+				document.getElementById('hottest').appendChild(h5Elm);
+				document.getElementById('hottest').appendChild(ulElm);
+				data.forEach(function (item) {
+					var liElm = document.createElement('li');
+					liElm.innerText = item.brand + " | " + item.newCarPrice + " | " + item.avgSellPrice + " | " + item.remainingRate + " | " + item.total;
+					ulElm.append(liElm);
+				});
+			})
+	})();
+
+	// 基于准备好的dom，初始化echarts实例
+
+
+  (function loadChart() {
+    fetch(hostUrl + '/statistics/vehicle' + brand, {method: 'GET'})
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function (data) {
+        renderLineChart(data, 'avgSellPrice', 'price', '二手价格曲线图');
+				renderLineChart(data, 'remainingRate', 'remainingRate', '保值率曲线');
+      })
+  })();
+
+    function renderLineChart(data, attributeName, elementId, title) {
+      var myChart = echarts.init(document.getElementById(elementId));
+      option.title.text = title;
+      option.series = [];
+      option.legend.data = [];
+      Object.keys(data).forEach(function(key, index) {
+        option.legend.data.push(key);
+        var serie = {
+          name: key,
+          type: 'line',
+          stack: '总量'+index,
+          areaStyle: {normal: {}},
+          data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        };
+        data[key].forEach(function(item) {
+          if (item.id.roadHaul * 2 < 28) {
+            serie.data[item.id.roadHaul * 2 - 1] = item[attributeName];
+          }
+        });
+        option.series.push(serie);
+      });
+      myChart.setOption(option);
+    }
+
+	  // 指定图表的配置项和数据
+    option = {
+        title: {
+            text: '二手价格曲线图'
+        },
+        tooltip : {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            }
+        },
+        legend: {
+          top:'6%',
+          data:[]
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            top:'20%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : ['0.5万公里','1万公里','1.5万公里','2万公里','2.5万公里','3万公里','3.5万公里','4万公里','4.5万公里','5万公里','5.5万公里',
+                  '6万公里','6.5万公里','7万公里','7.5万公里','8万公里','8.5万公里','9万公里','9.5万公里','10万公里','10.5万公里','11万公里','11.5万公里','12万公里','12.5万公里','13万公里','13万公里+']
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series:[]
+    };
+
+
+
+    // 使用刚指定的配置项和数据显示图表。
+
+/*]]>*/
+</script>
+</body>
+</html>

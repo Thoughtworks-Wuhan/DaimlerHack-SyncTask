@@ -23,26 +23,28 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class DataController {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String DEFAULT_START_DATE = "20170619";
 
     @Autowired
     private FetchDataAsyncTask task;
 
     @GetMapping("/load/{date}")
-    @ResponseBody Map<String, String> parse(@PathVariable String date, @RequestParam("start") String start) throws IOException, ParseException, InterruptedException {
+    @ResponseBody Map<String, String> parseRawDataFile(
+            @PathVariable String date,
+            @RequestParam(value="start", required=false, defaultValue="20170619") String strStartDate,
+            @RequestParam(value="loadToDB", required=false, defaultValue="false") String loadToDB
+    )throws IOException, ParseException, InterruptedException {
         Map<String, String> result = new HashMap<String, String>();
-        start = start == null ? DEFAULT_START_DATE : start;
-        Calendar startDate = getCalendar(start);
+        Calendar startDate = getCalendar(strStartDate);
         Calendar endDate = getCalendar(date);
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
         while (!endDate.before(startDate)) {
             logger.info("startDate: " + df.format(startDate.getTime()) + " endDate: " + df.format(endDate.getTime()));
-            task.doTask1(df.format(startDate.getTime()));
+            task.doTask1(df.format(startDate.getTime()), loadToDB);
             startDate.add(Calendar.DATE, 1);
         }
 
-        result.put("message", "start tread to load data from  " + start + " to " + date);
+        result.put("message", "start tread to load data from  " + startDate + " to " + date);
 
         return result;
     }
